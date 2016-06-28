@@ -2,15 +2,15 @@
 using System.Collections;
 
 public class Weapon : MonoBehaviour {
-    public string name;
+    public string wName;
     public float damage;
-    public float fireRate;
+    public float coolDown;
 
-    public Weapon(string name, float damage, float fireRate)
+    public Weapon(string wName, float damage, float coolDown)
     {
-        this.name = name;
+        this.wName = wName;
         this.damage = damage;
-        this.fireRate = fireRate;
+        this.coolDown = coolDown;
     }
 
 	// Use this for initialization

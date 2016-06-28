@@ -4,21 +4,20 @@ using System;
 using System.Collections.Generic;
 
 public class PlayerAttack : MonoBehaviour {
-    public float coolDownTime;
     private float coolDown;
-    public float shotDamage;
     private LineRenderer aim;
-    private Transform shotPos;
-    private Vector3 camHitVector;
+    public Light muzzleFlash; 
 
     void Start () {
-        coolDown = coolDownTime;
         aim = this.GetComponent<LineRenderer>();
     }
 	
 	void Update () {
-        shotPos = this.GetComponent<PlayerMouseAim>().shotPos;
-        camHitVector = this.GetComponent<PlayerMouseAim>().getCamHitVector();
+        //Info from other classes
+        Weapon weapon = gameObject.GetComponent<PlayerInventory>().getCurrentWeap(); //Get the weapon the player is using
+        Transform shotPos = this.GetComponent<PlayerMouseAim>().shotPos;
+        Vector3 camHitVector = this.GetComponent<PlayerMouseAim>().getCamHitVector();
+
 
         //Ray from character to cursor
         Ray shotRay = new Ray(shotPos.position, shotPos.forward);
@@ -37,15 +36,24 @@ public class PlayerAttack : MonoBehaviour {
         }
         coolDown -= Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && coolDown <= 0) {
+        if (Input.GetButton("Fire1") && coolDown <= 0) { //FIRE!
+            StartCoroutine(muzzleFlashIni(0.01f));
             if (shotHitBool)
             {
                 if (shotRayHit.collider.gameObject.layer == 8 && shotRayHit.collider.gameObject != gameObject)
                 {
-                    shotRayHit.collider.gameObject.GetComponent<Health>().setHealth(shotRayHit.collider.gameObject.GetComponent<Health>().getHealth() - shotDamage);
+                    shotRayHit.collider.gameObject.GetComponent<Health>().setHealth(shotRayHit.collider.gameObject.GetComponent<Health>().getHealth() - weapon.damage);
                 }
             }
-            coolDown = coolDownTime;
+            coolDown = weapon.coolDown;
+            print("pew!");
         }
+    }
+
+    IEnumerator muzzleFlashIni(float seconds) //Muzzleflash turn on for x seconds
+    {
+        muzzleFlash.gameObject.SetActive(true);
+        yield return new WaitForSeconds(seconds);
+        muzzleFlash.gameObject.SetActive(false);
     }
 }
