@@ -9,12 +9,14 @@ public class EnemyMovementNew : MonoBehaviour {
     private Vector3 targetVector;
     private GameObject target;
     bool playerSeen;
-    float timeSinceSeen;
+    float timeSinceSeen = 0;
     public float memorySpan = 3;
+    public Vector3 shuffleDest;
 
     void Start () {
         controller = this.GetComponent<CharacterController>();
         target = GameObject.Find("Player").gameObject;
+        shuffleDest = transform.position;
     }
 
 	void FixedUpdate () {
@@ -32,7 +34,7 @@ public class EnemyMovementNew : MonoBehaviour {
 
             timeSinceSeen += Time.deltaTime; //Advance time
 
-            if(timeSinceSeen >= memorySpan) //Check if the time since the player was last seen exceeds the memoryspan
+            if(timeSinceSeen > memorySpan) //Check if the time since the player was last seen exceeds the memoryspan
             {
                 playerSeen = false;
             }
@@ -46,15 +48,27 @@ public class EnemyMovementNew : MonoBehaviour {
                     transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(controller.velocity), 0.2f); //look direction
                 }
             }
-            else //shuffle
+            else if(timeSinceSeen >= 1) //shuffle
             {
-                Vector3 newPos = transform.position;
-                newPos.x = transform.position.x + Random.Range(-1, 1);
-                newPos.z = transform.position.x + Random.Range(-1, 1);
+                print("time to do stuff!");
+                if (shuffleDest == transform.position)
+                {
+                    print("new dest!");
+                    timeSinceSeen = 0;
 
-                controller.Move((newPos - transform.position) * shuffleSpeed);
-                
+                    Vector3 newPos = transform.position;
+                    newPos.x = transform.position.x + Random.Range(-1, 1);
+                    newPos.z = transform.position.x + Random.Range(-1, 1);
+                    shuffleDest = newPos;
+                }
+                else
+                {
+                    print("Moving!");
+                    controller.Move((shuffleDest - transform.position) * shuffleSpeed);
+                }
             }
+            print(transform.position.x + ", " + transform.position.z);
+            print(shuffleDest.x + ", " + shuffleDest.z);
         }
     }
 }
