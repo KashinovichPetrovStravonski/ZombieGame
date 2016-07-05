@@ -1,19 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class PlayerInventory : MonoBehaviour {
     public Weapon currentWeap;
     public List<Weapon> weaponList;
 
 	void Start () {
-        currentWeap = new Weapon("pistol", 1, 0.3f);
+        var weaponContainer = XMLWeaponContainer.read(Path.Combine(Application.dataPath, "WeaponCollection.xml"));
+        print("Load!");
+        print(weaponContainer.weaponList.Count);
+        print(weaponContainer.weaponList.ToString());
+      //  currentWeap = weaponContainer.weaponList.Find(); //Get weapon from XML
     }
 	
 	void Update () {
 	
 	}
-
+    
     public void setCurrentWeap(Weapon weapon)
     {
         currentWeap = weapon;
@@ -23,7 +28,7 @@ public class PlayerInventory : MonoBehaviour {
     {
         return currentWeap;
     }
-
+/*
     public void AddWeapToInv(Weapon weapon)
     {
         weaponList.Add(weapon);
@@ -32,5 +37,5 @@ public class PlayerInventory : MonoBehaviour {
     public void RemoveWeapFromInv(Weapon weapon)
     {
         weaponList.Remove(weapon);
-    }
+    }*/
 }

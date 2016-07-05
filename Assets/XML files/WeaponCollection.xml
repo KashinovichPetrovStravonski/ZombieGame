@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Weapons>
+  <Weapon name ="Pistol">
+    <Damage>1</Damage>
+    <FireRate>1</FireRate>
+  </Weapon>
+  <Weapon name ="Rifle">
+    <Damage>3</Damage>
+    <FireRate>0.2</FireRate>
+  </Weapon>
+  <Weapon name ="Submachine Gun">
+    <Damage>0.5</Damage>
+    <FireRate>3</FireRate>
+  </Weapon>
+</Weapons>

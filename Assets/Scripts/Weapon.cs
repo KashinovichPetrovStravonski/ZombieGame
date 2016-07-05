@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Xml.Serialization;
 
 public class Weapon : MonoBehaviour {
-    public string wName;
-    public float damage;
-    public float coolDown;
 
-    public Weapon(string wName, float damage, float coolDown)
-    {
-        this.wName = wName;
-        this.damage = damage;
-        this.coolDown = coolDown;
-    }
+    [XmlAttribute("name")]
+    public string wName;
+    [XmlElement("Damage")]
+    public float damage;
+    [XmlElement("FireRate")]
+    public float fireRate;
 
 	// Use this for initialization
 	void Start () {

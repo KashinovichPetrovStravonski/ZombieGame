@@ -5,15 +5,15 @@ public class EnemyMovementNewNew : MonoBehaviour {
     public float runSpeed;
     public float walkSpeed;
     public Vector3 resetLastPlayerSighting = new Vector3(0,10,0);
-    public GameObject target;
-
+    
+    private GameObject target;
     private NavMeshAgent nav;
     private Vector3 lastPlayerSighting;
 
 
-
     // Use this for initialization
     void Start () {
+        target = GameObject.Find("Player");
         nav = GetComponent<NavMeshAgent>();
         lastPlayerSighting = resetLastPlayerSighting;
     }
@@ -49,7 +49,7 @@ public class EnemyMovementNewNew : MonoBehaviour {
     void Search()
     {
         nav.speed = runSpeed;
-        nav.SetDestination(lastPlayerSighting);
+        nav.destination = lastPlayerSighting;
     }
 
     void Idle()
@@ -59,7 +59,7 @@ public class EnemyMovementNewNew : MonoBehaviour {
             Vector3 newPos = transform.position;
             newPos.x = transform.position.x + Random.Range(-2, 2);
             newPos.z = transform.position.z + Random.Range(-2, 2);
-            nav.SetDestination(newPos);
+            nav.destination = newPos;
         }
     }
 }

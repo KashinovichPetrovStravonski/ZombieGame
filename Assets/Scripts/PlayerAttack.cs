@@ -45,7 +45,7 @@ public class PlayerAttack : MonoBehaviour {
                     shotRayHit.collider.gameObject.GetComponent<Health>().setHealth(shotRayHit.collider.gameObject.GetComponent<Health>().getHealth() - weapon.damage);
                 }
             }
-            coolDown = weapon.coolDown;
+            coolDown = weapon.fireRate; //Fix firerate to calculate properly
             print("pew!");
         }
     }
